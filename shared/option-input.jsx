@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   inputBox: {
+    maxHeight: 48,
     display: "flex",
     flexDirection: "row",
     borderWidth: 1,

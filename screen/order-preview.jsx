@@ -47,7 +47,12 @@ export function OrderPreviews() {
               navigation.goBack();
             }}
           />
-          <Button title={"Lanjutkan"} onPress={() => {}} />
+          <Button
+            title={"Lanjutkan"}
+            onPress={() => {
+              navigation.navigate("Home", { screen: "Summaries" });
+            }}
+          />
         </View>
       </View>
       <StatusBar style="auto" />

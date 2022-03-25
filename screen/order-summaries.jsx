@@ -1,0 +1,146 @@
+import { useNavigation, CommonActions } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
+import { Button, Modal, OptionsInput, TextInput, Ticket } from "../shared";
+import Icon, { ICON } from "../shared/icons";
+import { ScrollView } from "react-native";
+
+export function OrderSummaries() {
+  const [gender, setGender] = useState("laki-laki");
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+
+  const genders = [
+    { value: "laki-laki", label: "Laki-Laki" },
+    { value: "perempuan", label: "Perempuan" },
+  ];
+
+  const onSubmit = () => {
+    setModalVisible(true);
+  };
+
+  const onClose = () => {
+    setModalVisible(false);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: "Home" }],
+      })
+    );
+  };
+
+  const onPrev = () => {
+    navigation.goBack();
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.background} />
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingTop: StatusBar.currentHeight,
+        }}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View style={styles.box}>
+          <Modal visible={modalVisible} onClose={onClose} />
+          <Text style={styles.hero}>Kapalzy</Text>
+          <Text style={styles.strong}>Informasi Pemesanan</Text>
+          <Ticket />
+          <Text style={styles.strong}>Data Pemesan</Text>
+          <TextInput
+            label="Nama Lengkap"
+            placeholder="Nama anda..."
+            iconRender={(focused) => (
+              <Icon name={ICON.user} focused={focused} />
+            )}
+          />
+          <OptionsInput
+            label="Jenis Kelamin"
+            placeholder="Pilih jenis kelamin"
+            iconRender={(focused) => <Icon name={ICON.sex} focused={focused} />}
+            selected={{ value: gender }}
+            onSelect={(selected) => setGender(selected)}
+            options={genders}
+          />
+          <TextInput
+            label="Umur"
+            placeholder="Umur anda..."
+            mode="decimal-pad"
+            iconRender={(focused) => (
+              <Icon name={ICON.date} focused={focused} />
+            )}
+          />
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Button title={"Kembali"} onPress={onPrev} />
+            <Button title={"Submit"} onPress={onSubmit} />
+          </View>
+        </View>
+        <StatusBar style="auto" />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+
+  background: {
+    display: "flex",
+    flex: 1,
+    backgroundColor: "#1A202C",
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    height: "50%",
+    borderBottomEndRadius: 60,
+    borderBottomLeftRadius: 60,
+  },
+
+  hero: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 18,
+    textAlign: "center",
+  },
+
+  strong: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+  },
+
+  box: {
+    marginVertical: 32,
+    width: 320,
+    display: "flex",
+    backgroundColor: "#fff",
+    padding: 24,
+    borderRadius: 16,
+    shadowColor: "#1A202C",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 2,
+  },
+});

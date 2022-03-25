@@ -66,7 +66,7 @@ export function OrderInputs() {
         <Button
           title={"Buat Tiket"}
           onPress={() => {
-            navigation.navigate("Previews", { screen: "Previews" });
+            navigation.navigate("Home", { screen: "Previews" });
           }}
         />
       </View>

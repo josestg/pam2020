@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput as RNTextInput, View } from "react-native";
 
 export function TextInput(props) {
-  const { label, iconRender, placeholder, style } = props;
+  const { label, iconRender, placeholder, style, mode } = props;
   const [foucesed, setFocused] = useState(false);
 
   return (
@@ -12,6 +12,7 @@ export function TextInput(props) {
         {iconRender(foucesed)}
         <RNTextInput
           editable
+          keyboardType={mode}
           style={styles.editor}
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
