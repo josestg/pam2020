@@ -1,16 +1,23 @@
-import { useNavigation, CommonActions } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { useContext, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { OrdersContext } from "../context/orders";
+import { TicketsContext } from "../context/tickets";
 import { Button, Modal, OptionsInput, TextInput, Ticket } from "../shared";
 import Icon, { ICON } from "../shared/icons";
-import { ScrollView } from "react-native";
 
 export function OrderSummaries() {
   const [gender, setGender] = useState("laki-laki");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+
+  const [name, setName] = useState("");
+  const [age, setAge] = useState(0);
+
+  const { createdTicket, createBuyer, buyer } = useContext(TicketsContext);
+  const { submitOrder } = useContext(OrdersContext);
 
   const genders = [
     { value: "laki-laki", label: "Laki-Laki" },
@@ -19,10 +26,12 @@ export function OrderSummaries() {
 
   const onSubmit = () => {
     setModalVisible(true);
+    createBuyer(createdTicket.id, name, gender, age);
   };
 
   const onClose = () => {
     setModalVisible(false);
+    submitOrder(buyer, createdTicket);
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -52,11 +61,12 @@ export function OrderSummaries() {
           <Modal visible={modalVisible} onClose={onClose} />
           <Text style={styles.hero}>Kapalzy</Text>
           <Text style={styles.strong}>Informasi Pemesanan</Text>
-          <Ticket />
+          <Ticket data={createdTicket} />
           <Text style={styles.strong}>Data Pemesan</Text>
           <TextInput
             label="Nama Lengkap"
             placeholder="Nama anda..."
+            onChangeText={setName}
             iconRender={(focused) => (
               <Icon name={ICON.user} focused={focused} />
             )}
@@ -73,6 +83,7 @@ export function OrderSummaries() {
             label="Umur"
             placeholder="Umur anda..."
             mode="decimal-pad"
+            onChangeText={(text) => setAge(Number(text))}
             iconRender={(focused) => (
               <Icon name={ICON.date} focused={focused} />
             )}

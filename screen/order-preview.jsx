@@ -1,11 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
+import { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { TicketsContext } from "../context/tickets";
 import { Button, Ticket } from "../shared";
 
 export function OrderPreviews() {
   const navigation = useNavigation();
+
+  const { createdTicket } = useContext(TicketsContext);
+
+  const { passengers, price } = createdTicket;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,10 +26,10 @@ export function OrderPreviews() {
           }}
         >
           <Text style={styles.strong}>Kuota Tersedia</Text>
-          <Text style={styles.strong}>1000</Text>
+          <Text style={styles.strong}>{1000 - passengers}</Text>
         </View>
         <Text style={styles.strong}>Rincian Tiket</Text>
-        <Ticket />
+        <Ticket data={createdTicket} />
         <View
           style={{
             display: "flex",
@@ -32,7 +38,9 @@ export function OrderPreviews() {
           }}
         >
           <Text style={styles.strong}>Total</Text>
-          <Text style={styles.strong}>Rp. 65000</Text>
+          <Text style={styles.strong}>
+            Rp. {Number(passengers) * Number(price)}
+          </Text>
         </View>
         <View
           style={{

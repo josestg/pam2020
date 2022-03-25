@@ -2,7 +2,8 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput as RNTextInput, View } from "react-native";
 
 export function TextInput(props) {
-  const { label, iconRender, placeholder, style, mode } = props;
+  const { label, iconRender, placeholder, style, mode, onChangeText, value } =
+    props;
   const [foucesed, setFocused] = useState(false);
 
   return (
@@ -17,6 +18,8 @@ export function TextInput(props) {
           placeholder={placeholder}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          onChangeText={onChangeText}
+          value={value}
         />
       </View>
     </View>

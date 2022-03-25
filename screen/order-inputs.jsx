@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { TicketsContext } from "../context/tickets";
 import { Button, DateInput, OptionsInput, TextInput } from "../shared";
 import Icon, { ICON } from "../shared/icons";
 
@@ -11,8 +12,12 @@ export function OrderInputs() {
   const [serviceOptions, setServiceOptions] = useState([]);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [source, setSource] = useState("");
+  const [destination, setDestination] = useState();
+  const [passengers, setPassenger] = useState(0);
 
   const navigation = useNavigation();
+  const { createTicket } = useContext(TicketsContext);
 
   useEffect(() => {
     setServiceOptions([
@@ -22,54 +27,99 @@ export function OrderInputs() {
     ]);
   }, []);
 
+  const handleCreateTicket = () => {
+    const price = 65000;
+    createTicket(
+      source,
+      destination,
+      serviceClass,
+      date,
+      time,
+      passengers,
+      price
+    );
+    navigation.navigate("Home", { screen: "Previews" });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.background} />
-      <View style={styles.inputs}>
-        <Text style={styles.hero}>Kapalzy</Text>
-        <TextInput
-          label="Asal"
-          placeholder="Masukkan pelabuhan asal"
-          iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
-        />
-        <TextInput
-          label="Tujuan"
-          placeholder="Masukkan pelabuhan tujuan"
-          iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
-        />
-        <OptionsInput
-          label="Kelas Layanan"
-          placeholder="Pilih layanan"
-          iconRender={(focused) => (
-            <Icon name={ICON.service} focused={focused} />
-          )}
-          selected={{ value: serviceClass }}
-          onSelect={(selected) => setServiceClass(selected)}
-          options={serviceOptions}
-        />
-        <DateInput
-          label="Tanggal Keberangkatan"
-          placeholder="Masukkan pelabuhan tujuan"
-          value={date}
-          mode={"date"}
-          onChange={(value) => setDate(value)}
-          iconRender={(focused) => <Icon name={ICON.date} focused={focused} />}
-        />
-        <DateInput
-          label="Jam Keberankatan"
-          placeholder="Masukkan jam keberangkatan"
-          value={time}
-          mode={"time"}
-          onChange={(value) => setTime(value)}
-          iconRender={(focused) => <Icon name={ICON.time} focused={focused} />}
-        />
-        <Button
-          title={"Buat Tiket"}
-          onPress={() => {
-            navigation.navigate("Home", { screen: "Previews" });
-          }}
-        />
-      </View>
+      <ScrollView
+        style={{
+          flex: 1,
+          paddingTop: StatusBar.currentHeight,
+        }}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View style={styles.inputs}>
+          <Text style={styles.hero}>Kapalzy</Text>
+          <TextInput
+            label="Asal"
+            placeholder="Masukkan pelabuhan asal"
+            iconRender={(focused) => (
+              <Icon name={ICON.ship} focused={focused} />
+            )}
+            value={source}
+            onChangeText={setSource}
+          />
+          <TextInput
+            label="Tujuan"
+            placeholder="Masukkan pelabuhan tujuan"
+            iconRender={(focused) => (
+              <Icon name={ICON.ship} focused={focused} />
+            )}
+            value={destination}
+            onChangeText={setDestination}
+          />
+          <OptionsInput
+            label="Kelas Layanan"
+            placeholder="Pilih layanan"
+            iconRender={(focused) => (
+              <Icon name={ICON.service} focused={focused} />
+            )}
+            selected={{ value: serviceClass }}
+            onSelect={(selected) => setServiceClass(selected)}
+            options={serviceOptions}
+          />
+          <DateInput
+            label="Tanggal Keberangkatan"
+            placeholder="Masukkan pelabuhan tujuan"
+            value={date}
+            mode={"date"}
+            onChange={(value) => setDate(value)}
+            iconRender={(focused) => (
+              <Icon name={ICON.date} focused={focused} />
+            )}
+          />
+          <DateInput
+            label="Jam Keberankatan"
+            placeholder="Masukkan jam keberangkatan"
+            value={time}
+            mode={"time"}
+            onChange={(value) => setTime(value)}
+            iconRender={(focused) => (
+              <Icon name={ICON.time} focused={focused} />
+            )}
+          />
+
+          <TextInput
+            label="Banyak Penumpang"
+            placeholder="isi banyak penumpang"
+            mode="decimal-pad"
+            iconRender={(focused) => (
+              <Icon name={ICON.user} focused={focused} />
+            )}
+            value={passengers}
+            onChangeText={(text) => setPassenger(Number(text))}
+          />
+
+          <Button title={"Buat Tiket"} onPress={handleCreateTicket} />
+        </View>
+      </ScrollView>
+
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -105,8 +155,8 @@ const styles = StyleSheet.create({
   },
 
   inputs: {
-    marginTop: 32,
-    width: 320,
+    marginVertical: 40,
+    width: 360,
     display: "flex",
     backgroundColor: "#fff",
     padding: 24,

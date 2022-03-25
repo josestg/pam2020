@@ -1,6 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import OrdersProvider from "./context/orders";
+import TicketsProvider from "./context/tickets";
 import { Cancellations, Home, Orders, Others } from "./screen";
 
 const Tab = createBottomTabNavigator();
@@ -26,20 +28,24 @@ function getIconName(screenName, focused) {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            const iconName = getIconName(route.name, focused);
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
-        <Tab.Screen name={screens.Home} component={Home} />
-        <Tab.Screen name={screens.Orders} component={Orders} />
-        <Tab.Screen name={screens.Cancellation} component={Cancellations} />
-        <Tab.Screen name={screens.Others} component={Others} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <OrdersProvider>
+      <TicketsProvider>
+        <NavigationContainer>
+          <Tab.Navigator
+            screenOptions={({ route }) => ({
+              tabBarIcon: ({ focused, color, size }) => {
+                const iconName = getIconName(route.name, focused);
+                return <Ionicons name={iconName} size={size} color={color} />;
+              },
+            })}
+          >
+            <Tab.Screen name={screens.Home} component={Home} />
+            <Tab.Screen name={screens.Orders} component={Orders} />
+            <Tab.Screen name={screens.Cancellation} component={Cancellations} />
+            <Tab.Screen name={screens.Others} component={Others} />
+          </Tab.Navigator>
+        </NavigationContainer>
+      </TicketsProvider>
+    </OrdersProvider>
   );
 }

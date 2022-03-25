@@ -1,27 +1,31 @@
 import { View, Text, StyleSheet } from "react-native";
+
 import Icon, { ICON } from "./icons";
 
 export function Ticket(props) {
+  const { source, destination, date, time, service, passengers, price } =
+    props.data;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Bakauheni</Text>
+        <Text style={styles.headerText}>{source}</Text>
         <Icon name={ICON.destination} focused={false} />
-        <Text style={styles.headerText}>Merak</Text>
+        <Text style={styles.headerText}>{destination}</Text>
       </View>
       <View style={styles.box}>
         <Text style={styles.title}>Jadwal Masuk Pelabuhan</Text>
-        <Text>Kamis, 17 Maret 2022</Text>
-        <Text>15:30 WIB</Text>
+        <Text>{date}</Text>
+        <Text>{time}</Text>
       </View>
       <View style={styles.box}>
         <Text style={styles.title}>Layanan</Text>
-        <Text>Express</Text>
+        <Text>{service}</Text>
       </View>
       <View style={styles.line} />
       <View style={styles.price}>
-        <Text>Dewasa x 1</Text>
-        <Text>Rp. 65.000</Text>
+        <Text>Dewasa x {passengers}</Text>
+        <Text>Rp. {Number(passengers) * Number(price)}</Text>
       </View>
     </View>
   );
@@ -33,6 +37,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 8,
     marginVertical: 16,
+    width: "100%",
   },
 
   title: {
