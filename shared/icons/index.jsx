@@ -5,6 +5,7 @@ export const ICON = {
   service: "seat-passenger",
   date: "calendar",
   time: "clock",
+  destination: "arrow-right",
 };
 
 export default function Icon({ name, focused }) {
@@ -13,6 +14,7 @@ export default function Icon({ name, focused }) {
 
   switch (name) {
     case ICON.ship:
+    case ICON.destination:
       return <Fontisto name={name} size={size} color={color} />;
     case ICON.service:
     case ICON.date:

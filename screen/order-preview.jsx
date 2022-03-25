@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button } from "../shared";
+import { Button, Ticket } from "../shared";
 
 export function OrderPreviews() {
   const navigation = useNavigation();
@@ -10,9 +10,30 @@ export function OrderPreviews() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.background} />
-      <View style={styles.inputs}>
-        <Text style={styles.hero}>Preview</Text>
-
+      <View style={styles.box}>
+        <Text style={styles.hero}>Kapalzy</Text>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={styles.strong}>Kuota Tersedia</Text>
+          <Text style={styles.strong}>1000</Text>
+        </View>
+        <Text style={styles.strong}>Rincian Tiket</Text>
+        <Ticket />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={styles.strong}>Total</Text>
+          <Text style={styles.strong}>Rp. 65000</Text>
+        </View>
         <View
           style={{
             display: "flex",
@@ -63,7 +84,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  inputs: {
+  strong: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+  },
+
+  box: {
     marginTop: 32,
     width: 320,
     display: "flex",
