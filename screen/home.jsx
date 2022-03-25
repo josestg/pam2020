@@ -3,6 +3,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { Button, DateInput, OptionsInput, TextInput } from "../shared";
 import { useState, useEffect } from "react";
 import Icon, { ICON } from "../shared/icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export function Home() {
   const [serviceClass, setServiceClass] = useState("ekonomi");
@@ -19,7 +20,7 @@ export function Home() {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.background} />
       <View style={styles.inputs}>
         <Text style={styles.hero}>Kapalzy</Text>
@@ -62,7 +63,7 @@ export function Home() {
         <Button title={"Buat Tiket"} onPress={() => {}} />
       </View>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
