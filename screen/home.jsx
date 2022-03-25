@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import { DateInput, OptionsInput, TextInput } from "../shared";
+import { StyleSheet, View, Text } from "react-native";
+import { Button, DateInput, OptionsInput, TextInput } from "../shared";
 import { useState, useEffect } from "react";
 import Icon, { ICON } from "../shared/icons";
 
@@ -20,40 +20,47 @@ export function Home() {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        label="Asal"
-        placeholder="Masukkan pelabuhan asal"
-        iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
-      />
-      <TextInput
-        label="Tujuan"
-        placeholder="Masukkan pelabuhan tujuan"
-        iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
-      />
-      <OptionsInput
-        label="Kelas Layanan"
-        placeholder="Pilih layanan"
-        iconRender={(focused) => <Icon name={ICON.service} focused={focused} />}
-        selected={{ value: serviceClass }}
-        onSelect={(selected) => setServiceClass(selected)}
-        options={serviceOptions}
-      />
-      <DateInput
-        label="Tanggal Keberangkatan"
-        placeholder="Masukkan pelabuhan tujuan"
-        value={date}
-        mode={"date"}
-        onChange={(value) => setDate(value)}
-        iconRender={(focused) => <Icon name={ICON.date} focused={focused} />}
-      />
-      <DateInput
-        label="Jam Keberankatan"
-        placeholder="Masukkan jam keberangkatan"
-        value={time}
-        mode={"time"}
-        onChange={(value) => setTime(value)}
-        iconRender={(focused) => <Icon name={ICON.time} focused={focused} />}
-      />
+      <View style={styles.background} />
+      <View style={styles.inputs}>
+        <Text style={styles.hero}>Kapalzy</Text>
+        <TextInput
+          label="Asal"
+          placeholder="Masukkan pelabuhan asal"
+          iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
+        />
+        <TextInput
+          label="Tujuan"
+          placeholder="Masukkan pelabuhan tujuan"
+          iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
+        />
+        <OptionsInput
+          label="Kelas Layanan"
+          placeholder="Pilih layanan"
+          iconRender={(focused) => (
+            <Icon name={ICON.service} focused={focused} />
+          )}
+          selected={{ value: serviceClass }}
+          onSelect={(selected) => setServiceClass(selected)}
+          options={serviceOptions}
+        />
+        <DateInput
+          label="Tanggal Keberangkatan"
+          placeholder="Masukkan pelabuhan tujuan"
+          value={date}
+          mode={"date"}
+          onChange={(value) => setDate(value)}
+          iconRender={(focused) => <Icon name={ICON.date} focused={focused} />}
+        />
+        <DateInput
+          label="Jam Keberankatan"
+          placeholder="Masukkan jam keberangkatan"
+          value={time}
+          mode={"time"}
+          onChange={(value) => setTime(value)}
+          iconRender={(focused) => <Icon name={ICON.time} focused={focused} />}
+        />
+        <Button title={"Buat Tiket"} onPress={() => {}} />
+      </View>
       <StatusBar style="auto" />
     </View>
   );
@@ -65,5 +72,42 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  background: {
+    display: "flex",
+    flex: 1,
+    backgroundColor: "#1A202C",
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    height: "50%",
+    borderBottomEndRadius: 60,
+    borderBottomLeftRadius: 60,
+  },
+
+  hero: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#000",
+    marginBottom: 18,
+    textAlign: "center",
+  },
+
+  inputs: {
+    marginTop: 32,
+    display: "flex",
+    backgroundColor: "#fff",
+    padding: 24,
+    borderRadius: 16,
+    shadowColor: "#1A202C",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 2,
   },
 });
