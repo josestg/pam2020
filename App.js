@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import { Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
 import { DateInput, OptionsInput, TextInput } from "./shared";
 import { useState, useEffect } from "react";
+import Icon, { ICON } from "./shared/icons";
 
 export default function App() {
   const [serviceClass, setServiceClass] = useState("ekonomi");
@@ -23,27 +23,17 @@ export default function App() {
       <TextInput
         label="Asal"
         placeholder="Masukkan pelabuhan asal"
-        iconRender={(focused) => (
-          <Fontisto name="ship" size={24} color={focused ? "green" : "black"} />
-        )}
+        iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
       />
       <TextInput
         label="Tujuan"
         placeholder="Masukkan pelabuhan tujuan"
-        iconRender={(focused) => (
-          <Fontisto name="ship" size={24} color={focused ? "green" : "black"} />
-        )}
+        iconRender={(focused) => <Icon name={ICON.ship} focused={focused} />}
       />
       <OptionsInput
         label="Kelas Layanan"
         placeholder="Pilih layanan"
-        iconRender={(focused) => (
-          <MaterialCommunityIcons
-            name="seat-passenger"
-            size={24}
-            color={focused ? "green" : "black"}
-          />
-        )}
+        iconRender={(focused) => <Icon name={ICON.service} focused={focused} />}
         selected={{ value: serviceClass }}
         onSelect={(selected) => setServiceClass(selected)}
         options={serviceOptions}
@@ -54,7 +44,7 @@ export default function App() {
         value={date}
         mode={"date"}
         onChange={(value) => setDate(value)}
-        iconRender={() => <MaterialCommunityIcons name="calendar" size={24} />}
+        iconRender={(focused) => <Icon name={ICON.date} focused={focused} />}
       />
       <DateInput
         label="Jam Keberankatan"
@@ -62,7 +52,7 @@ export default function App() {
         value={time}
         mode={"time"}
         onChange={(value) => setTime(value)}
-        iconRender={() => <MaterialCommunityIcons name="clock" size={24} />}
+        iconRender={(focused) => <Icon name={ICON.time} focused={focused} />}
       />
       <StatusBar style="auto" />
     </View>
